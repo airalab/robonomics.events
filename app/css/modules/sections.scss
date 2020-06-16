@@ -1,0 +1,14 @@
+@mixin sectionMargins($margin){
+  padding-top: $margin;
+  padding-bottom: $margin;
+}
+
+section
+  {
+    position: relative;
+    @include sectionMargins($margin-sec);
+
+    section{
+      @include sectionMargins($margin-sec/2);
+    }
+  }

@@ -1,0 +1,75 @@
+#index-intro
+	{
+		background: image-url('Banner-Robonomics-2019.jpg') no-repeat 0 100%;
+		background-size: cover;
+
+		&:after{
+			content:"";
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background-color: rgba(#000, .25);
+			z-index: 0;
+		}
+	}
+
+#index-intro--content
+	{
+		transition: all 0.4s ease-in-out;
+
+		position: absolute;
+		top: 20px;
+		right: 120px;
+		bottom: 20px;
+		z-index: 1;
+
+		box-sizing: border-box;
+		padding: 60px 20px;
+
+		font-size: 20px;
+		color: #fff;
+		// background-color: rgb(30, 39, 210);
+		background-color: rgba(#fff,.2);
+		border: 1px solid rgba(#fff,.4);
+		border-radius: 6px;
+
+		-webkit-backdrop-filter: invert(80%);
+		backdrop-filter: invert(80%);
+
+		h1 {
+			margin: 0;
+			font-size: 40px;
+		}
+
+		@include maxTablet(){
+			right: 20px;
+			left: 20px;
+		}
+
+		@include minTablet(){
+			width: 600px;
+		}
+
+		input:not([type='submit']):not([type='button']) {
+			transition: all 0.4s ease-in-out;
+			border-color: rgba(#fff,.4);
+			background-color: rgba(#fff, .7);
+
+			&::placeholder
+				{
+					color: rgba(#000, .4);
+				}
+
+			&:focus{
+				background-color: rgba(#fff, .9);
+				border-color: #fff;
+			}
+		}
+
+		input, button {
+			font-size: 22px;
+			padding: 20px;
+		}
+	}
