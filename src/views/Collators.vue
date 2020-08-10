@@ -28,12 +28,54 @@
           "_YOUR_NAME_FROM_GOOGLE_FORM_"</code
         >
       </p>
+
+      <div style="text-align: center; margin: 20px 0;">
+        <h2>Stake</h2>
+        <Signal v-if="account" />
+        <div v-else><button @click="connect">connect account</button></div>
+      </div>
+
       <iframe
         src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRpSXinniUIYVr37zWXJDG8PXGY9Xpl0iLLCaBE-ZWUBRHO45pw7wPF6_rQThpqKbE_0cleMy57-18R/pubhtml?gid=1991395529&amp;single=true&amp;widget=true&amp;headers=false"
       ></iframe>
     </div>
   </div>
 </template>
+
+<script>
+import Vue from "vue";
+import Signal from "../components/Signal.vue";
+import { accessAccount, state } from "../chain";
+
+export default {
+  components: {
+    Signal,
+  },
+  data() {
+    return {
+      account: null,
+    };
+  },
+  async mounted() {
+    this.account = this.$account;
+  },
+  methods: {
+    async connect() {
+      try {
+        const w3 = await accessAccount();
+        if (w3) {
+          Vue.prototype.$account = state.account;
+          this.account = this.$account;
+        } else {
+          console.log(state);
+        }
+      } catch (_) {
+        console.log(state);
+      }
+    },
+  },
+};
+</script>
 
 <style scoped>
 .page {

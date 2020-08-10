@@ -80,36 +80,10 @@
 </template>
 
 <script>
-import Web3 from "web3";
 import Chart from "../components/Chart.vue";
 import init, { total_payout } from "../rewards/xrt_lp_rewards.js";
-
-const web3 = new Web3(
-  "https://mainnet.infura.io/v3/c1ea69ab1e0a4c6aa6a9dcd0641aecc7"
-);
-const contract = new web3.eth.Contract(
-  [
-    {
-      constant: true,
-      inputs: [],
-      name: "totalSupply",
-      outputs: [{ name: "", type: "uint256" }],
-      payable: false,
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      constant: true,
-      inputs: [{ name: "owner", type: "address" }],
-      name: "balanceOf",
-      outputs: [{ name: "", type: "uint256" }],
-      payable: false,
-      stateMutability: "view",
-      type: "function",
-    },
-  ],
-  "0x7de91b204c1c737bcee6f000aaa6569cf7061cb7"
-);
+import config from "../config";
+import ABI from "../abi/token.json";
 
 export default {
   components: {
@@ -117,6 +91,8 @@ export default {
   },
   data() {
     return {
+      account: null,
+      contract: null,
       canChart: false,
       load: false,
       points: [],
@@ -126,6 +102,8 @@ export default {
     };
   },
   async mounted() {
+    this.contract = new this.$web3.eth.Contract(ABI, config.XRT);
+
     try {
       await init("xrt_lp_rewards_bg.wasm");
       this.canChart = true;
@@ -142,21 +120,19 @@ export default {
   },
   methods: {
     async loadStaked() {
-      const result = await contract.methods
-        .balanceOf("0x3185626c14acb9531d19560decb9d3e5e80681b1")
+      const result = await this.contract.methods
+        .balanceOf(config.UNISWAP)
         .call();
       this.staked = Math.round(Number(result) / 1000000000).toString();
     },
     async loadTotal() {
-      const tokensupply = await contract.methods.totalSupply().call();
-      const dutchAuction = await contract.methods
-        .balanceOf("0x86da63b3341924c88baa5adbb2b8f930cc02e586")
+      const tokensupply = await this.contract.methods.totalSupply().call();
+      const dutchAuction = await this.contract.methods
+        .balanceOf(config.DutchAuction)
         .call();
-      const DAO = await contract.methods
-        .balanceOf("0x28a3d3467a3198d1bb5311836036d53c3c64b999")
-        .call();
-      const publicAmbix = await contract.methods
-        .balanceOf("0x06d77d039a6bd049fc9e651b7ecbb2694ac1f96f")
+      const DAO = await this.contract.methods.balanceOf(config.DAO).call();
+      const publicAmbix = await this.contract.methods
+        .balanceOf(config.PublicAmbix)
         .call();
       this.total = Math.round(
         (Number(tokensupply) -
@@ -198,7 +174,7 @@ export default {
   text-align: center;
 }
 .tb {
-  width: 500px;
+  width: 325px;
   margin: 40px auto;
 }
 .tb .row {
