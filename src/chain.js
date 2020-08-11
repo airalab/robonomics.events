@@ -60,34 +60,35 @@ export const state = {
   typeProvider: null,
 };
 
-export async function init(networks) {
+let watch;
+export async function init(networks, cb) {
+  watch = cb;
   try {
     const provider = getWeb3Provider();
-    state.typeProvider = provider.type;
+    mutation("typeProvider", provider.type);
     const instance = new Web3(provider.provider);
-    state.getWeb3 = () => instance;
+    mutation("getWeb3", () => instance);
     const networkId = await instance.eth.net.getId();
-    state.networkId = networkId;
+    mutation("networkId", networkId);
+    let error = 0;
     if (!networks.includes(String(networkId))) {
-      state.error = 1;
-      state.isReady = false;
+      error = 1;
     } else {
-      let error = 0;
       if (instance && provider.type === 1) {
         window.ethereum.on("networkChanged", function (networkId) {
-          state.networkId = networkId;
+          mutation("networkId", networkId);
         });
         window.ethereum.on("accountsChanged", function (accounts) {
           if (accounts.length > 0) {
-            state.account = instance.utils.toChecksumAddress(accounts[0]);
+            mutation("account", instance.utils.toChecksumAddress(accounts[0]));
           } else {
-            state.account = null;
+            mutation("account", null);
           }
         });
         if (initAccount || (await isAuthorized())) {
           if (await accountAccess()) {
             try {
-              state.account = await getAccount(instance);
+              mutation("account", await getAccount(instance));
             } catch (_) {
               error = 2;
             }
@@ -98,23 +99,25 @@ export async function init(networks) {
         }
       } else if (instance && provider.type === 2) {
         try {
-          state.account = await getAccount(instance);
+          mutation("account", await getAccount(instance));
         } catch (_) {
           error = 2;
         }
       }
-      if (error > 0) {
-        state.error = error;
-        state.isReady = false;
-        return false;
-      } else {
-        state.isReady = true;
-        state.error = null;
-        return instance;
-      }
     }
+    if (error > 0) {
+      mutation("isReady", false);
+      mutation("error", error);
+      return false;
+    }
+    mutation("isReady", true);
+    mutation("error", null);
+    return instance;
   } catch (e) {
     console.log(e);
+    mutation("isReady", false);
+    mutation("error", 4);
+    return false;
   }
 }
 
@@ -125,7 +128,7 @@ export async function accessAccount() {
   if (instance && typeProvider === 1) {
     if (await accountAccess()) {
       try {
-        state.account = await getAccount(instance);
+        mutation("account", await getAccount(instance));
       } catch (_) {
         error = 2;
       }
@@ -135,18 +138,24 @@ export async function accessAccount() {
     }
   } else if (instance && typeProvider === 2) {
     try {
-      state.account = await getAccount(instance);
+      mutation("account", await getAccount(instance));
     } catch (_) {
       error = 2;
     }
   }
   if (error > 0) {
-    state.error = error;
-    state.isReady = false;
+    mutation("isReady", false);
+    mutation("error", error);
     return false;
-  } else {
-    state.isReady = true;
-    state.error = null;
-    return instance;
+  }
+  mutation("isReady", true);
+  mutation("error", null);
+  return instance;
+}
+
+function mutation(field, value) {
+  state[field] = value;
+  if (watch) {
+    watch(state);
   }
 }

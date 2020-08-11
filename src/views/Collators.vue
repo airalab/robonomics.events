@@ -31,7 +31,7 @@
 
       <div style="text-align: center; margin: 20px 0;">
         <h2>Stake</h2>
-        <Signal v-if="account" />
+        <Signal v-if="$account" />
         <div v-else><button @click="connect">connect account</button></div>
       </div>
 
@@ -43,7 +43,6 @@
 </template>
 
 <script>
-import Vue from "vue";
 import Signal from "../components/Signal.vue";
 import { accessAccount, state } from "../chain";
 
@@ -51,24 +50,10 @@ export default {
   components: {
     Signal,
   },
-  data() {
-    return {
-      account: null,
-    };
-  },
-  async mounted() {
-    this.account = this.$account;
-  },
   methods: {
     async connect() {
       try {
-        const w3 = await accessAccount();
-        if (w3) {
-          Vue.prototype.$account = state.account;
-          this.account = this.$account;
-        } else {
-          console.log(state);
-        }
+        await accessAccount();
       } catch (_) {
         console.log(state);
       }

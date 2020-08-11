@@ -16,11 +16,26 @@ export default {
     };
   },
   async mounted() {
+    const account = Vue.observable({ account: null });
+    Object.defineProperty(Vue.prototype, "$account", {
+      get() {
+        return account.account;
+      },
+      set(value) {
+        account.account = value;
+      },
+    });
+
     try {
-      const w3 = await init(["1"]);
+      const w3 = await init(["1"], (state) => {
+        if (state.error) {
+          this.ready = false;
+        } else {
+          this.$account = state.account;
+        }
+      });
       if (w3) {
         Vue.prototype.$web3 = w3;
-        Vue.prototype.$account = state.account;
         this.ready = true;
       } else {
         console.log(state);

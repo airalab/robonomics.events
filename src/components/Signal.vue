@@ -72,6 +72,11 @@ export default {
       tx: null,
     };
   },
+  watch: {
+    $account() {
+      this.loadData();
+    },
+  },
   async mounted() {
     this.contractSignal = new this.$web3.eth.Contract(SignalABI, config.SIGNAL);
     this.contractToken = new this.$web3.eth.Contract(TokenABI, config.XRT);
@@ -101,6 +106,8 @@ export default {
         this.error = "this address already participate";
       } else if (Number(this.balance) < Number(this.signalPrice)) {
         this.error = "insufficient funds";
+      } else {
+        this.error = null;
       }
 
       this.isLoad = false;
