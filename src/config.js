@@ -4,5 +4,5 @@ export default {
   DutchAuction: "0x86da63b3341924c88baa5adbb2b8f930cc02e586",
   DAO: "0x28a3d3467a3198d1bb5311836036d53c3c64b999",
   PublicAmbix: "0x06d77d039a6bd049fc9e651b7ecbb2694ac1f96f",
-  SIGNAL: "",
+  SIGNAL: "0x8763f37787a2E3aB0796B3D3b90316a595c214F6",
 };

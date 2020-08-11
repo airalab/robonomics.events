@@ -17,7 +17,7 @@ export default {
   },
   async mounted() {
     try {
-      const w3 = await init(["4"]);
+      const w3 = await init(["1"]);
       if (w3) {
         Vue.prototype.$web3 = w3;
         Vue.prototype.$account = state.account;

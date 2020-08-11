@@ -147,7 +147,10 @@ export default {
     },
     approve() {
       this.contractToken.methods
-        .approve(config.SIGNAL, "100000000000000000000")
+        .approve(
+          config.SIGNAL,
+          "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+        )
         .send({ from: this.$account }, (e, tx) => {
           if (e) {
             // this.error = "error";
