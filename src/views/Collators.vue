@@ -3,22 +3,31 @@
     <h1>We invite independent collators for testing now!</h1>
     <div>
       <p>
-        Follow the link Telemetry participants of Robonomics Parachain and
+      <b>Attention please!</b> Updates from 10 August 2020. Robonomics Core developers team want to prevent unlimited farming from 11 august, and now collators must stake some Robonomics tokens to be whitelisted in testnet collators and be rewarded weekly with 10 XRT. 
+       Collators staking smart contract has the limit of 250 addresses and amount XRT required for staking will increase with [following formula on WolframAlpha](https://www.wolframalpha.com/input/?i=plot+5+*+250+%2F+%28250+-+x+%2B+1%29%2C+x+%3D+0..250%2C+y+%3D+0..100). 
+      </p>
+      <p>
+        Follow the link <a href="https://docs.google.com/forms/d/e/1FAIpQLSc3sDbeQbD_gah6kntlI9jGnYvT6nJyGyQkpQU4QPTXzC0w-Q/viewform">
+        Telemetry participants of Robonomics Parachain</a> and
         please put the name you will use in Robonomics telemetry and your
         ethereum mainnet address. Once a week we will reward you with 10 XRT (in
         case your collator is up and running 24/7).
       </p>
       <p>
-        Build the parachain collator from the tag:<br />
+        Build the parachain collator from the latest release of robonomics:<br />
         <a
-          href="https://github.com/airalab/robonomics/releases/tag/v0.18.4-parachain"
-          >https://github.com/airalab/robonomics/releases/tag/v0.18.4-parachain</a
+          href="https://github.com/airalab/robonomics/releases">Robonomics releases on GitHub</a
         >
       </p>
       <p>
-        See build instructions in the Readme:<br />
-        <a href="https://github.com/airalab/robonomics#the-robonomics-framework"
-          >https://github.com/airalab/robonomics#the-robonomics-framework</a
+        See build instructions on GitHub:<br />
+        <a href="https://github.com/airalab/robonomics#the-robonomics-framework">Robonomics Readme</a
+        >
+      </p>
+      <p>
+        See step-by-step build instructions on Medium:<br />
+        <a href="https://blog.aira.life/installing-and-running-the-robonomics-validator-in-the-polkadot-network-487ad4c1a567"
+          >Installing and running the Robonomics parachain collator</a
         >
       </p>
       <p>
