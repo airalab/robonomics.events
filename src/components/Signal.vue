@@ -12,7 +12,7 @@
       <p v-if="error">{{ error }}</p>
       <div v-if="stakeOf == 0 && !error">
         <button
-          v-if="allowance < signalPrice"
+          v-if="Number(allowance) < Number(signalPrice)"
           @click="approve"
           :disabled="statusApprove === 1"
           class="btn-red"
@@ -37,7 +37,11 @@
           withdraw
         </button>
       </div>
-      <small v-if="tx">{{ tx }}</small>
+      <small v-if="tx">
+        <a :href="`https://etherscan.io/tx/${tx}`" target="_blank">
+          {{ tx | sliceAddress }}
+        </a>
+      </small>
     </div>
   </div>
 </template>
@@ -81,11 +85,11 @@ export default {
     this.contractSignal = new this.$web3.eth.Contract(SignalABI, config.SIGNAL);
     this.contractToken = new this.$web3.eth.Contract(TokenABI, config.XRT);
 
+    this.isLoad = true;
     this.loadData();
   },
   methods: {
     async loadData() {
-      this.isLoad = true;
       this.stakeOf = await this.contractSignal.methods
         .stakeOf(this.$account)
         .call();
@@ -101,11 +105,11 @@ export default {
         .call();
 
       if (Number(this.usedSeats) >= Number(this.totalSeats)) {
-        this.error = "not enough seats to participate";
+        this.error = "Not enough seats to participate";
       } else if (Number(this.stakeOf) > 0) {
-        this.error = "this address already participate";
+        this.error = "This address already participate";
       } else if (Number(this.balance) < Number(this.signalPrice)) {
-        this.error = "insufficient funds";
+        this.error = "Insufficient funds";
       } else {
         this.error = null;
       }
@@ -135,24 +139,29 @@ export default {
         });
     },
     withdraw() {
+      this.statusWithdraw = 1;
       this.contractSignal.methods
         .withdraw()
         .send({ from: this.$account }, (e, tx) => {
           if (e) {
+            this.statusWithdraw = 0;
             // this.error = "error";
             return;
           }
           this.tx = tx;
         })
         .then(() => {
+          this.statusWithdraw = 0;
           this.tx = null;
           this.loadData();
         })
         .catch(() => {
+          this.statusWithdraw = 0;
           this.tx = null;
         });
     },
     approve() {
+      this.statusApprove = 1;
       this.contractToken.methods
         .approve(
           config.SIGNAL,
@@ -160,16 +169,19 @@ export default {
         )
         .send({ from: this.$account }, (e, tx) => {
           if (e) {
+            this.statusApprove = 0;
             // this.error = "error";
             return;
           }
           this.tx = tx;
         })
         .then(() => {
+          this.statusApprove = 0;
           this.tx = null;
           this.loadData();
         })
         .catch(() => {
+          this.statusApprove = 0;
           this.tx = null;
         });
     },
