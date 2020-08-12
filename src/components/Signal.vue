@@ -123,15 +123,16 @@ export default {
         .send({ from: this.$account }, (e, tx) => {
           if (e) {
             this.statusDeposit = 0;
-            // this.error = "error";
             return;
           }
           this.tx = tx;
         })
         .then(() => {
-          this.statusDeposit = 0;
-          this.tx = null;
-          this.loadData();
+          setTimeout(() => {
+            this.statusDeposit = 0;
+            this.tx = null;
+            this.loadData();
+          }, 3000);
         })
         .catch(() => {
           this.statusDeposit = 0;
@@ -145,15 +146,16 @@ export default {
         .send({ from: this.$account }, (e, tx) => {
           if (e) {
             this.statusWithdraw = 0;
-            // this.error = "error";
             return;
           }
           this.tx = tx;
         })
         .then(() => {
-          this.statusWithdraw = 0;
-          this.tx = null;
-          this.loadData();
+          setTimeout(() => {
+            this.statusWithdraw = 0;
+            this.tx = null;
+            this.loadData();
+          }, 3000);
         })
         .catch(() => {
           this.statusWithdraw = 0;
@@ -170,15 +172,16 @@ export default {
         .send({ from: this.$account }, (e, tx) => {
           if (e) {
             this.statusApprove = 0;
-            // this.error = "error";
             return;
           }
           this.tx = tx;
         })
         .then(() => {
-          this.statusApprove = 0;
-          this.tx = null;
-          this.loadData();
+          setTimeout(() => {
+            this.statusApprove = 0;
+            this.tx = null;
+            this.loadData();
+          }, 3000);
         })
         .catch(() => {
           this.statusApprove = 0;
