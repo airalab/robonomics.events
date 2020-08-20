@@ -10,7 +10,7 @@
       /></template>
       Your balance: {{ balance | fromWei }} XRT<br /><br />
       <p v-if="error">{{ error }}</p>
-      <div v-if="stakeOf == 0 && !error">
+      <!-- <div v-if="stakeOf == 0 && !error">
         <button
           v-if="Number(allowance) < Number(signalPrice)"
           @click="approve"
@@ -27,7 +27,7 @@
         >
           deposit
         </button>
-      </div>
+      </div> -->
       <div v-if="stakeOf > 0">
         <button
           @click="withdraw"
