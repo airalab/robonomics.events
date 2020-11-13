@@ -7,8 +7,9 @@
       :log="points"
       :staked="stakedPoint"
     />
+    <div v-if="!canChart" class="error">Your browser doesn't support wasm</div>
     <div v-if="load">Loading...</div>
-    <div class="tb">
+    <div class="tb" v-else>
       <div class="row">
         <div class="col">Total staked</div>
         <div class="col-left">{{ staked }} XRT</div>
@@ -105,13 +106,13 @@ export default {
     this.contract = new this.$web3.eth.Contract(ABI, config.XRT);
 
     try {
-      await init("xrt_lp_rewards_bg.wasm");
-      this.canChart = true;
       this.load = true;
       await this.loadStaked();
       await this.loadTotal();
-      this.draw();
       this.load = false;
+      await init("xrt_lp_rewards_bg.wasm");
+      this.canChart = true;
+      this.draw();
     } catch (error) {
       this.canChart = false;
       this.load = false;
@@ -126,6 +127,12 @@ export default {
       this.staked = Math.round(Number(result) / 1000000000).toString();
     },
     async loadTotal() {
+      const asd = new Promise((r) => {
+        setTimeout(() => {
+          r();
+        }, 3000);
+      });
+      await asd;
       const tokensupply = await this.contract.methods.totalSupply().call();
       const dutchAuction = await this.contract.methods
         .balanceOf(config.DutchAuction)
@@ -174,7 +181,7 @@ export default {
   text-align: center;
 }
 .tb {
-  width: 325px;
+  width: 310px;
   margin: 40px auto;
 }
 .tb .row {
@@ -217,5 +224,10 @@ li {
 iframe {
   width: 100%;
   height: 500px;
+}
+.error {
+  color: #ff5959;
+  font-size: 16px;
+  font-weight: bold;
 }
 </style>
