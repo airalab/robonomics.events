@@ -7,7 +7,9 @@
       :log="points"
       :staked="stakedPoint"
     />
-    <div v-if="!canChart" class="error">Your browser doesn't support wasm</div>
+    <div v-if="error" class="error">
+      Your browser doesn't support wasm
+    </div>
     <div v-if="load">Loading...</div>
     <div class="tb" v-else>
       <div class="row">
@@ -94,6 +96,7 @@ export default {
     return {
       account: null,
       contract: null,
+      error: false,
       canChart: false,
       load: false,
       points: [],
@@ -116,6 +119,7 @@ export default {
     } catch (error) {
       this.canChart = false;
       this.load = false;
+      this.error = true;
       console.log(error);
     }
   },
