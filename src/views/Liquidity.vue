@@ -87,6 +87,7 @@ import Chart from "../components/Chart.vue";
 import init, { total_payout } from "../rewards/xrt_lp_rewards.js";
 import config from "../config";
 import ABI from "../abi/token.json";
+import Web3 from "web3";
 
 export default {
   components: {
@@ -125,10 +126,24 @@ export default {
   },
   methods: {
     async loadStaked() {
+      const uniswap = await this.loadStakedUniswap();
+      const anyswap = await this.loadStakedAnySwap();
+      this.staked = Number(uniswap) + Number(anyswap);
+    },
+    async loadStakedAnySwap() {
+      const provider = new Web3.providers.HttpProvider(config.BINANCE.PROVIDER);
+      const web3 = new Web3(provider);
+      const contract = new web3.eth.Contract(ABI, config.BINANCE.XRT);
+      const result = await contract.methods
+        .balanceOf(config.BINANCE.ANYSWAP)
+        .call();
+      return Math.round(Number(result) / 1000000000).toString();
+    },
+    async loadStakedUniswap() {
       const result = await this.contract.methods
         .balanceOf(config.UNISWAP)
         .call();
-      this.staked = Math.round(Number(result) / 1000000000).toString();
+      return Math.round(Number(result) / 1000000000).toString();
     },
     async loadTotal() {
       const asd = new Promise((r) => {
