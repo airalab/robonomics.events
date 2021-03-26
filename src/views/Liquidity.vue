@@ -13,6 +13,14 @@
     <div v-if="load">Loading...</div>
     <div class="tb" v-else>
       <div class="row">
+        <div class="col">Uniswap staked</div>
+        <div class="col-left">{{ uniswap }} XRT</div>
+      </div>
+      <div class="row">
+        <div class="col">Pancake staked</div>
+        <div class="col-left">{{ anyswap }} XRT</div>
+      </div>
+      <div class="row">
         <div class="col">Total staked</div>
         <div class="col-left">{{ staked }} XRT</div>
       </div>
@@ -31,10 +39,15 @@
       class="btn-red"
       >Add XRT / ETH Liquidity on Uniswap</a
     >
+    <a
+      href="https://exchange.pancakeswap.finance/#/add/0xC0A51ac9d548BdcDe53Fa59448029e41A39FEB20/0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56"
+      target="_blank"
+      class="btn-red"
+      >Add XRT / BUSD Liquidity on Pancake</a
+    >
     <h2>XRT Liquidity events last updates</h2>
     <div style="width: 1024px; margin: 0 auto; text-align: left;">
       <ul>
-        <li>XRT Liquidity pool staking event will be continued in August.</li>
         <li>
           The reward will change from the const amount to the weekly reward
           calculation algorithm.
@@ -102,6 +115,8 @@ export default {
       load: false,
       points: [],
       stakedPoint: [],
+      uniswap: "0",
+      anyswap: "0",
       staked: "0",
       total: "0",
     };
@@ -126,9 +141,9 @@ export default {
   },
   methods: {
     async loadStaked() {
-      const uniswap = await this.loadStakedUniswap();
-      const anyswap = await this.loadStakedAnySwap();
-      this.staked = Number(uniswap) + Number(anyswap);
+      this.uniswap = await this.loadStakedUniswap();
+      this.anyswap = await this.loadStakedAnySwap();
+      this.staked = Number(this.uniswap) + Number(this.anyswap);
     },
     async loadStakedAnySwap() {
       const provider = new Web3.providers.HttpProvider(config.BINANCE.PROVIDER);
@@ -223,12 +238,12 @@ button {
   padding: 10px;
 }
 .btn-red {
-  display: block;
+  display: inline-block;
   background-color: #2e9a21;
   border: 1px solid #478a43;
   width: 300px;
   color: blanchedalmond;
-  margin: 0 auto;
+  margin: 5px;
   padding: 10px;
   text-decoration: none;
   text-align: center;
