@@ -78,7 +78,8 @@
           real-time circulation.
         </li>
         <li>
-          Minimal stake in August will be 0.1% XRT/ETH pool to be rewarded.
+          From March 31st, 2021, the minimum reward rate will be 0.025% of the
+          XRT / ETH or XRT / BUSD pool for reward.
         </li>
         <li>
           This application is a useful tool to get actual data regarding
