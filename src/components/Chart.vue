@@ -24,7 +24,7 @@ export default {
         yAxis: {
           title: {
             text:
-              "Weekly reward for each 1% in XRT/ETH liquidity pool on Uniswap",
+              "Weekly reward for each 1% in cumulative XRT/ETH & XRT/BUSD pools",
           },
         },
         tooltip: {
@@ -57,7 +57,7 @@ export default {
       const series = [
         {
           name:
-            "Weekly reward for each 1% in XRT/ETH liquidity pool on Uniswap",
+            "Weekly reward for each 1% in cumulative XRT/ETH & XRT/BUSD pools",
           color: "#e8b738",
           lineWidth: 1,
           marker: { radius: 2 },
