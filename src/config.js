@@ -4,7 +4,8 @@ export default {
   BINANCE: {
     PROVIDER: "https://bsc-dataseed.binance.org/",
     XRT: "0xC0A51ac9d548BdcDe53Fa59448029e41A39FEB20",
-    ANYSWAP: "0x89735a84a1684eae1c85e75e187dedfe3328add8",
+    PANCAKE_v1: "0x89735a84a1684eae1c85e75e187dedfe3328add8",
+    PANCAKE: "0xfDaBfF54ACD5fFf6bBD6a18a0b6820AECAfB9067",
   },
   DutchAuction: "0x86da63b3341924c88baa5adbb2b8f930cc02e586",
   DAO: "0x28a3d3467a3198d1bb5311836036d53c3c64b999",

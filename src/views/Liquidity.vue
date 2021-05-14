@@ -18,7 +18,7 @@
       </div>
       <div class="row">
         <div class="col">Pancake staked</div>
-        <div class="col-left">{{ anyswap }} XRT</div>
+        <div class="col-left">{{ pancake }} XRT</div>
       </div>
       <div class="row">
         <div class="col">Total staked</div>
@@ -117,7 +117,7 @@ export default {
       points: [],
       stakedPoint: [],
       uniswap: "0",
-      anyswap: "0",
+      pancake: "0",
       staked: "0",
       total: "0",
     };
@@ -143,15 +143,15 @@ export default {
   methods: {
     async loadStaked() {
       this.uniswap = await this.loadStakedUniswap();
-      this.anyswap = await this.loadStakedAnySwap();
-      this.staked = Number(this.uniswap) + Number(this.anyswap);
+      this.pancake = await this.loadStakedPancake();
+      this.staked = Number(this.uniswap) + Number(this.pancake);
     },
-    async loadStakedAnySwap() {
+    async loadStakedPancake() {
       const provider = new Web3.providers.HttpProvider(config.BINANCE.PROVIDER);
       const web3 = new Web3(provider);
       const contract = new web3.eth.Contract(ABI, config.BINANCE.XRT);
       const result = await contract.methods
-        .balanceOf(config.BINANCE.ANYSWAP)
+        .balanceOf(config.BINANCE.PANCAKE)
         .call();
       return Math.round(Number(result) / 1000000000).toString();
     },
